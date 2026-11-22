@@ -1,0 +1,14 @@
+* text=auto
+*.cs text eol=lf diff=csharp
+*.shader text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.asmdef text eol=lf
+*.unity merge=binary
+*.prefab merge=binary
+*.png binary
+*.jpg binary
+*.wav binary
+*.ogg binary
+*.ttf binary
+*.otf binary
