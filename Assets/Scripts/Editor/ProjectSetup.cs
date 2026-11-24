@@ -15,8 +15,25 @@ namespace GiaoQua.EditorTools
         static readonly (int slot, string name)[] Layers =
         {
             (6, "Ground"), (7, "Enemy"), (8, "Hazard"), (9, "Item"),
+            (10, "Player"), (11, "Projectile"), (12, "Gift"),
         };
         static readonly string[] Tags = { "Gift", "Enemy", "Hazard", "Collectible", "Checkpoint" };
+
+        // Pairs of layers that must NOT collide (everything else keeps the default).
+        static readonly string[][] IgnoredPairs =
+        {
+            new[] { "Enemy", "Enemy" }, new[] { "Enemy", "Item" }, new[] { "Enemy", "Gift" }, new[] { "Enemy", "Hazard" },
+            new[] { "Player", "Gift" }, new[] { "Player", "Projectile" },
+            new[] { "Projectile", "Projectile" }, new[] { "Projectile", "Item" }, new[] { "Projectile", "Gift" },
+            new[] { "Projectile", "Hazard" }, new[] { "Gift", "Item" }, new[] { "Gift", "Hazard" },
+        };
+
+        static void ApplyCollisionMatrix()
+        {
+            foreach (var pair in IgnoredPairs)
+                Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(pair[0]), LayerMask.NameToLayer(pair[1]), true);
+            AssetDatabase.SaveAssets();
+        }
 
         [MenuItem("Tools/Giao Qua/Cài đặt project")]
         public static void Apply()
@@ -55,6 +72,7 @@ namespace GiaoQua.EditorTools
 
             tagManager.ApplyModifiedProperties();
             AssetDatabase.SaveAssets();
+            ApplyCollisionMatrix();
 
             foreach (string dir in new[] { "Assets/Art", "Assets/Kit", "Assets/Levels", "Assets/Scenes", "Assets/Scripts" })
                 Directory.CreateDirectory(dir);

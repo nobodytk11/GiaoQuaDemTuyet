@@ -2,7 +2,9 @@
     "name": "GiaoQua.Editor",
     "rootNamespace": "GiaoQua.EditorTools",
     "references": [
-        "GiaoQua.Core"
+        "GiaoQua.Core",
+        "GiaoQua.UI",
+        "GiaoQua.Gameplay"
     ],
     "includePlatforms": [
         "Editor"

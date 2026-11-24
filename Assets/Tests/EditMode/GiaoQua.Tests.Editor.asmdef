@@ -3,6 +3,8 @@
     "rootNamespace": "GiaoQua.Tests",
     "references": [
         "GiaoQua.Core",
+        "GiaoQua.UI",
+        "GiaoQua.Gameplay",
         "GiaoQua.Editor",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
