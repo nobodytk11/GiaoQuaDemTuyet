@@ -74,6 +74,48 @@ namespace GiaoQua.Tests
             return e;
         }
 
+        protected static T Spawn<T>(float x, float y = 0f, bool stompable = true) where T : Enemy
+        {
+            var go = new GameObject(typeof(T).Name) { layer = LayerMask.NameToLayer("Enemy") };
+            go.transform.position = new Vector2(x, y);
+            var sr = go.AddComponent<SpriteRenderer>();
+            sr.sprite = ProceduralSprites.Square(Color.magenta);
+            go.transform.localScale = new Vector3(0.8f, 0.7f, 1f);
+            var rb = go.AddComponent<Rigidbody2D>();
+            rb.freezeRotation = true;
+            rb.gravityScale = 3f;
+            var box = go.AddComponent<BoxCollider2D>();
+            box.size = Vector2.one;
+            box.offset = new Vector2(0f, 0.5f);
+            var e = go.AddComponent<T>();
+            if (!stompable) e.stompable = false;       // leave each enemy's own default alone
+            return e;
+        }
+
+        protected static Collectible Pickup(CollectibleKind kind, Vector2 at, int amount = 1)
+        {
+            var go = new GameObject("Pickup " + kind) { layer = LayerMask.NameToLayer("Item") };
+            go.transform.position = at;
+            var col = go.AddComponent<CircleCollider2D>();
+            col.radius = 0.4f;
+            var c = go.AddComponent<Collectible>();
+            c.kind = kind;
+            c.amount = amount;
+            return c;
+        }
+
+        protected static Gift MakeGift(Vector2 home)
+        {
+            var go = new GameObject("Gift") { layer = LayerMask.NameToLayer("Gift") };
+            go.transform.position = home;
+            var rb = go.AddComponent<Rigidbody2D>();
+            rb.gravityScale = 2f;
+            rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+            var box = go.AddComponent<BoxCollider2D>();
+            box.size = new Vector2(0.6f, 0.6f);
+            return go.AddComponent<Gift>();
+        }
+
         protected static IEnumerator Seconds(float s) { yield return new WaitForSeconds(s); }
 
         /// <summary>Waits until the condition holds. Fails the test (instead of hanging) after the time limit.</summary>

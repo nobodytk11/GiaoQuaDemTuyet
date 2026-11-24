@@ -163,7 +163,10 @@ namespace GiaoQua.Gameplay
 
         void Awake() { GetComponent<Collider2D>().isTrigger = true; }
 
-        void OnTriggerEnter2D(Collider2D other)
+        void OnTriggerEnter2D(Collider2D other) { TryCollect(other); }
+        void OnTriggerStay2D(Collider2D other) { TryCollect(other); }   // a heart picked up later, once the hero is hurt
+
+        void TryCollect(Collider2D other)
         {
             if (Collected) return;
             var player = other.GetComponentInParent<PlayerController>();

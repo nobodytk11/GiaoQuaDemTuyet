@@ -37,6 +37,8 @@ namespace GiaoQua.Gameplay
         public int Facing { get; private set; } = 1;
         public Rigidbody2D Body => rb;
         public Vector2 Velocity => rb.linearVelocity;
+        /// <summary>Velocity at the start of the last physics step, i.e. just before any contact in that step.</summary>
+        public Vector2 PreStepVelocity { get; private set; }
 
         /// <summary>Set by wind zones every physics step; added to the wanted sideways speed.</summary>
         public Vector2 ExternalVelocity;
@@ -62,7 +64,7 @@ namespace GiaoQua.Gameplay
         readonly Collider2D[] hits = new Collider2D[8];
         float coyoteTimer, bufferTimer, knockbackTimer;
         Vector2 standSize, standOffset;
-        bool jumpedUp;
+        bool jumpedUp, bouncing;
 
         void Awake()
         {
@@ -102,6 +104,7 @@ namespace GiaoQua.Gameplay
         void FixedUpdate()
         {
             float dt = Time.fixedDeltaTime;
+            PreStepVelocity = rb.linearVelocity;
             Vector2 platformVelocity = Vector2.zero;
             float friction = 1f;
             Grounded = CheckGround(out platformVelocity, out friction);
@@ -140,8 +143,8 @@ namespace GiaoQua.Gameplay
             // ---- gravity: short hop when the button is released, snappier fall ----
             float scale = baseGravityScale * GravityZoneScale;
             Vector2 v = rb.linearVelocity;
-            if (v.y < -0.1f) { scale *= fallMultiplier; jumpedUp = false; }
-            else if (v.y > 0.1f && (Input == null || !Input.JumpHeld || !Controllable)) scale *= jumpCutMultiplier;
+            if (v.y < -0.1f) { scale *= fallMultiplier; jumpedUp = false; bouncing = false; }
+            else if (v.y > 0.1f && !bouncing && (Input == null || !Input.JumpHeld || !Controllable)) scale *= jumpCutMultiplier;
             rb.gravityScale = scale;
             if (v.y < -maxFallSpeed) rb.linearVelocity = new Vector2(v.x, -maxFallSpeed);
 
@@ -210,6 +213,7 @@ namespace GiaoQua.Gameplay
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, speed);
             coyoteTimer = 0f;
+            bouncing = true;                 // a spring or stomp throws the hero up whether or not jump is held
         }
 
         public bool IsStompingOn(Collider2D enemy)

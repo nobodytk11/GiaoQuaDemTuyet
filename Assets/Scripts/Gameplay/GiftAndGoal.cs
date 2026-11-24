@@ -100,9 +100,11 @@ namespace GiaoQua.Gameplay
 
         void OnCollisionEnter2D(Collision2D c)
         {
-            if (c.collider.GetComponentInParent<PlayerController>() == null || gift == null || gift.Delivered) return;
+            var hero = c.collider.GetComponentInParent<PlayerController>();
+            if (hero == null || gift == null || gift.Delivered) return;
             if (gift.InFlight || !gift.AtHome) return;
-            float impact = Mathf.Abs(c.relativeVelocity.y);
+            // how hard the hero came down: its speed just before this physics step
+            float impact = Mathf.Max(-hero.PreStepVelocity.y, Mathf.Abs(c.relativeVelocity.y));
             if (impact < minImpact)
             {
                 WeakHitCount++;

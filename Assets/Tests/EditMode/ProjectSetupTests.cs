@@ -34,6 +34,7 @@ namespace GiaoQua.Tests
             Assert.IsFalse(Physics2D.GetIgnoreLayerCollision(player, enemy));
             Assert.IsFalse(Physics2D.GetIgnoreLayerCollision(shot, enemy), "snowballs must hit enemies");
             Assert.IsFalse(Physics2D.GetIgnoreLayerCollision(gift, ground));
+            Assert.IsFalse(Physics2D.GetIgnoreLayerCollision(gift, LayerMask.NameToLayer("Item")), "chimney trigger must see the gift");
         }
 
         [Test]

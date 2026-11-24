@@ -25,13 +25,15 @@ namespace GiaoQua.EditorTools
             new[] { "Enemy", "Enemy" }, new[] { "Enemy", "Item" }, new[] { "Enemy", "Gift" }, new[] { "Enemy", "Hazard" },
             new[] { "Player", "Gift" }, new[] { "Player", "Projectile" },
             new[] { "Projectile", "Projectile" }, new[] { "Projectile", "Item" }, new[] { "Projectile", "Gift" },
-            new[] { "Projectile", "Hazard" }, new[] { "Gift", "Item" }, new[] { "Gift", "Hazard" },
+            new[] { "Projectile", "Hazard" }, new[] { "Gift", "Hazard" },
         };
 
         static void ApplyCollisionMatrix()
         {
             foreach (var pair in IgnoredPairs)
                 Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer(pair[0]), LayerMask.NameToLayer(pair[1]), true);
+            // the chimney trigger sits on the Item layer and must see the gift
+            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Gift"), LayerMask.NameToLayer("Item"), false);
             AssetDatabase.SaveAssets();
         }
 
