@@ -659,6 +659,15 @@ Assets/Audio/Sfx/pause.wav,749a9d13b35eb9980ca25b8f8da7c0340bbff46e09df7ca74a8c0
 Assets/Audio/Sfx/bonus_box.wav,a82592d2bd3406a8222c746fd4c8325d0402d1fe341c121fa251d76ba4419d8e,https://opengameart.org/content/512-sound-effects-8-bit-style,CC0 1.0,external,none (renamed from General Sounds/Interactions/sfx_sounds_interaction7.wav)
 Assets/Audio/Music/menu_christmas-synths.ogg,54975344ab1704bae1c5b9dccb674e581f5caa910190644ebba46ae065f07622,https://opengameart.org/content/happy-synths-loop-with-slight-christmas-feeling,CC0 1.0,external,none (renamed from Christmas_synths.ogg)
 Assets/Audio/Music/game_snow-theme.ogg,142e935d6045c97001e9bd370a43c1630e949e8b49ef489e245173b6319958a7,https://opengameart.org/content/snow-theme,CC0 1.0,external,none (renamed from bgm_snow_theme_loop.ogg)
+Assets/Art/Own/btn_blue.png,451e422ce27e3b21a9a838c9b2728879b14d9a087c306887fce94560bef1a92c,,Original work of the team,own,drawn from scratch
+Assets/Art/Own/btn_green.png,c68dea12a9292953f3fda5c957243af77e953e6038d5c3c25de685df7f0ceb2f,,Original work of the team,own,drawn from scratch
+Assets/Art/Own/btn_red.png,aebd9169e0541a8a13f5a57342fe9220beaebb0dd1c9ed0ce95c3b951034e9da,,Original work of the team,own,drawn from scratch
+Assets/Art/Own/btn_grey.png,2ff912be4b1f7d044351bf326b4cf021970681d279d751e58be5b605ad3d10d6,,Original work of the team,own,drawn from scratch
+Assets/Art/Own/panel.png,beef170c2880672ac00f215d32fbe8fa506e7e49439376b50886eb6772a73928,,Original work of the team,own,drawn from scratch
+Assets/Art/Own/ui_star_on.png,efaa5a5b18ec783bb6c53f967f5504eb22660160e0ee9bd310d07d1a896508eb,,Original work of the team,own,drawn from scratch
+Assets/Art/Own/ui_star_off.png,1dce278171492f97a71029acad713d82650f5fd1efd93e48a8537766948ace64,,Original work of the team,own,drawn from scratch
+Assets/Art/Own/ui_lock.png,4444f4598ed514a771e205b371826ed086c45afe37656bd79817d3bdfc898136,,Original work of the team,own,drawn from scratch
+Assets/Art/Own/ui_check.png,17c2a32ee3736681fa578411abd2388f95f3e670f4240e1af8f57dffaae35e01,,Original work of the team,own,drawn from scratch
 Assets/Art/Own/gift.png,16f41cfbb913de2f4df0c622e32a69f99690d0477ab767f66203c4c7e446e2cd,,Original work of the team,own,drawn from scratch
 Assets/Art/Own/boots.png,18d7b5867a99845d93d6c9f03ec93cdd64798debe13e77f0732003b6fb611d9b,,Original work of the team,own,drawn from scratch
 Assets/Art/Own/shield.png,05fcfd3e8a121d6a7d1fcd18a741ecc5d7a8c77fbbeedb0257cabda0219bb74a,,Original work of the team,own,drawn from scratch

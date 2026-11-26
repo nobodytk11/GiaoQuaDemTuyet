@@ -152,5 +152,17 @@ namespace GiaoQua.Tests
             Assert.IsTrue(LevelCatalog.IsLast(2));
             Assert.IsFalse(LevelCatalog.IsLast(0));
         }
+
+        [Test]
+        public void Every_level_has_a_story_intro_and_an_environment_tip()
+        {
+            for (int i = 0; i < LevelCatalog.Count; i++)
+            {
+                Assert.IsFalse(string.IsNullOrWhiteSpace(StoryCatalog.Intro(i)), "intro " + i);
+                Assert.IsTrue(StoryCatalog.Tip(i).StartsWith("Bạn có biết?"), "tip " + i);
+            }
+            Assert.AreNotEqual(StoryCatalog.Intro(0), StoryCatalog.Intro(2));
+            Assert.IsFalse(string.IsNullOrEmpty(StoryCatalog.EndingMessage));
+        }
     }
 }

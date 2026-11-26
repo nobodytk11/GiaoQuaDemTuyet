@@ -14,7 +14,31 @@ namespace GiaoQua
         public static event Action<AchievementInfo> AchievementUnlocked;
         public static event Action Changed;
 
-        public static void UseStore(IKeyValueStore s) { store = s; data = null; }
+        public static void UseStore(IKeyValueStore s) { store = s; data = null; demoStore = null; }
+
+        // ---- demo (autoplay) runs on a throw-away copy, so the real save is never touched ----
+        static IKeyValueStore demoStore;
+        static SaveData realData;
+        static IKeyValueStore realStore;
+
+        public static void BeginDemo()
+        {
+            if (demoStore != null) return;
+            realStore = store;
+            realData = data;
+            demoStore = new MemoryStore();
+            store = demoStore;
+            data = null;
+        }
+
+        public static void EndDemo()
+        {
+            if (demoStore == null) return;
+            store = realStore;
+            data = realData;
+            demoStore = null;
+            Changed?.Invoke();
+        }
 
         public static SaveData Data
         {

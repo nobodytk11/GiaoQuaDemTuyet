@@ -50,6 +50,8 @@ namespace GiaoQua.Gameplay
                 health = player.GetComponent<PlayerHealth>();
                 if (health != null) health.Died += OnPlayerDied;
             }
+            if (GameSession.Autoplay && player != null && player.GetComponent<AutoPlayer>() == null)
+                player.Input = player.gameObject.AddComponent<AutoPlayer>();
             gift = FindFirstObjectByType<Gift>();
             int coins = 0;
             foreach (var c in FindObjectsByType<Collectible>(FindObjectsInactive.Include, FindObjectsSortMode.None))
@@ -139,6 +141,7 @@ namespace GiaoQua.Gameplay
         public void ToMenu()
         {
             Time.timeScale = 1f;
+            GameSession.EndAutoplay();
             SceneManager.LoadScene(LevelCatalog.MenuScene);
         }
     }

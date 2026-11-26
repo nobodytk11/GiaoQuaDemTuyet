@@ -8,41 +8,8 @@ using GiaoQua.Gameplay;
 namespace GiaoQua.Tests
 {
     /// <summary>Plays the real Level1 scene with a simple bot.</summary>
-    public class Level1Tests : PlayTestBase
+    public class Level1Tests : LevelTestBase
     {
-        PlayerController hero;
-        LevelController level;
-
-        IEnumerator Load(string scene)
-        {
-            var op = SceneManager.LoadSceneAsync(scene);
-            while (!op.isDone) yield return null;
-            yield return null;
-            hero = PlayerController.Current;
-            Assert.IsNotNull(hero, "no hero in " + scene);
-            hero.Input = input;
-            level = LevelController.Instance;
-            Assert.IsNotNull(level);
-            yield return new WaitForFixedUpdate();
-        }
-
-        /// <summary>One decision of the runner bot: run right, jump over pits, walls, spikes and enemies.</summary>
-        void BotStep()
-        {
-            input.MoveValue = 1f;
-            var p = (Vector2)hero.transform.position;
-            if (!hero.Grounded)
-            {
-                input.JumpHeldValue = hero.Velocity.y > 0.5f;     // hold while rising, let go near the top
-                return;
-            }
-            int ground = LayerMask.GetMask("Ground");
-            bool pit = !Physics2D.Raycast(p + new Vector2(1.6f, 0.5f), Vector2.down, 2f, ground);
-            bool wall = Physics2D.Raycast(p + new Vector2(0f, 0.3f), Vector2.right, 0.9f, ground);
-            bool danger = Physics2D.OverlapBox(p + new Vector2(2.1f, 0.5f), new Vector2(2.6f, 0.9f), 0f, LayerMask.GetMask("Hazard", "Enemy")) != null;
-            if (pit || wall || danger) input.PressJump();
-        }
-
         [UnityTest]
         public IEnumerator The_scene_has_everything_a_level_needs()
         {

@@ -22,12 +22,17 @@ namespace GiaoQua.EditorTools
         [MenuItem("Tools/Giao Qua/Tạo hoạt ảnh nhân vật")]
         public static void BuildAll()
         {
+            Build();
+            if (Application.isBatchMode) EditorApplication.Exit(0);
+        }
+
+        public static void Build()
+        {
             Directory.CreateDirectory(OutputFolder);
             foreach (string skin in Skins) BuildSkin(skin);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             Debug.Log("[GiaoQua] Hero animations built.");
-            if (Application.isBatchMode) EditorApplication.Exit(0);
         }
 
         static Sprite Load(string path)

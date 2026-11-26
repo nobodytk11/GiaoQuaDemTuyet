@@ -22,7 +22,8 @@ namespace GiaoQua.Gameplay
             var player = other.GetComponentInParent<PlayerController>();
             if (player != null) { player.ExternalVelocity += wind; return; }
             var gift = other.GetComponentInParent<Gift>();
-            if (gift != null && gift.Body != null) gift.Body.AddForce(wind.normalized * giftForce * gift.Body.mass);
+            // the wind only carries the gift while it flies; a gift waiting on the seesaw stays put
+            if (gift != null && gift.Body != null && gift.InFlight) gift.Body.AddForce(wind.normalized * giftForce * gift.Body.mass);
         }
     }
 }

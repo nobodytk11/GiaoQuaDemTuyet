@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d2248aad34349928065ea4b1b9f1ba, type: 3}
+  m_Name: AudioBank
+  m_EditorClassIdentifier: GiaoQua.Gameplay::GiaoQua.Gameplay.AudioBank
+  sfx:
+  - id: bonus_box
+    clip: {fileID: 8300000, guid: c753f55fc959e44a08bbd6ad66dd495d, type: 3}
+  - id: boss_hit
+    clip: {fileID: 8300000, guid: 6f9fb3fa0aac64ddeb11e5c0589d35e4, type: 3}
+  - id: checkpoint
+    clip: {fileID: 8300000, guid: 5057535ceca7449e58660d0c8e9912f7, type: 3}
+  - id: coin
+    clip: {fileID: 8300000, guid: aa4e508f45f2f45e3a16fdedbd4fe73d, type: 3}
+  - id: gift_delivered
+    clip: {fileID: 8300000, guid: 283b309d332914d43ab8010e55a2a72f, type: 3}
+  - id: heal
+    clip: {fileID: 8300000, guid: c7e301844d2174134a6093bc93df16b6, type: 3}
+  - id: hurt
+    clip: {fileID: 8300000, guid: 929c5a4028c25400db9cced0428120c7, type: 3}
+  - id: jump
+    clip: {fileID: 8300000, guid: f31cb82fc82894205bc061ae762687d7, type: 3}
+  - id: land
+    clip: {fileID: 8300000, guid: 75d3704a0ffe54ff4bd7af40abba6805, type: 3}
+  - id: lose
+    clip: {fileID: 8300000, guid: 9d5e9b13ed22b4b01b670855f3313728, type: 3}
+  - id: pause
+    clip: {fileID: 8300000, guid: 926229f4b04334f80b7ff9f056f6ee64, type: 3}
+  - id: player_die
+    clip: {fileID: 8300000, guid: 4045a55db123f47debbc98bdc7cb2ede, type: 3}
+  - id: powerup
+    clip: {fileID: 8300000, guid: 151a897b1a364479d81c6a029cbcd0ac, type: 3}
+  - id: seesaw_launch
+    clip: {fileID: 8300000, guid: e717ebe6d657940e7bf3dfa9c11fc182, type: 3}
+  - id: shield
+    clip: {fileID: 8300000, guid: 6a923f4bdcd4a413db89cda9d60f9c14, type: 3}
+  - id: snowball_hit
+    clip: {fileID: 8300000, guid: 74a35b7760e774736bbbdd142700539c, type: 3}
+  - id: snowball_throw
+    clip: {fileID: 8300000, guid: 20c30dc01afe947e5b993babeb13bbed, type: 3}
+  - id: stomp
+    clip: {fileID: 8300000, guid: 006f950ef309e497cbd67fa6d57bf5b4, type: 3}
+  - id: ui_click
+    clip: {fileID: 8300000, guid: af6acc4c67ce1430da3120af0022ebb8, type: 3}
+  - id: ui_move
+    clip: {fileID: 8300000, guid: 92e7bfabde7894607926e3a6e28fe983, type: 3}
+  - id: win
+    clip: {fileID: 8300000, guid: 45992825286514ea496bed14cd22e8ae, type: 3}
+  music:
+  - id: menu
+    clip: {fileID: 8300000, guid: cb018b7c6c9fb4509afd69ca007b82a1, type: 3}
+  - id: game
+    clip: {fileID: 8300000, guid: 14d37d56a34ed4aef985cb859b799258, type: 3}

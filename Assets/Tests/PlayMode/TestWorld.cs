@@ -29,6 +29,7 @@ namespace GiaoQua.Tests
             foreach (var go in SceneManager.GetActiveScene().GetRootGameObjects())
                 if (!existing.Contains(go)) Object.Destroy(go);
             Time.timeScale = 1f;
+            GameSession.EndAutoplay();
             SaveService.UseStore(new PlayerPrefsStore());
         }
 

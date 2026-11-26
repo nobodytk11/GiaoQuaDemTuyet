@@ -12,7 +12,7 @@ namespace GiaoQua.EditorTools
     {
         const float PixelsPerUnit = 70f;
 
-        public override uint GetVersion() { return 1; }
+        public override uint GetVersion() { return 3; }
 
         void OnPreprocessTexture()
         {
@@ -33,6 +33,14 @@ namespace GiaoQua.EditorTools
             bool standsOnFeet = assetPath.Contains("/Player/") || assetPath.Contains("/Enemies/");
             settings.spriteMeshType = isTile ? SpriteMeshType.FullRect : SpriteMeshType.Tight;
             settings.spriteAlignment = (int)(standsOnFeet ? SpriteAlignment.BottomCenter : SpriteAlignment.Center);
+            // buttons and panels are stretched in 9 pieces: the corners keep their shape
+            bool nineSlice = assetPath.Contains("/Own/btn_") || assetPath.Contains("/Own/panel");
+            if (nineSlice)
+            {
+                settings.spriteMeshType = SpriteMeshType.FullRect;
+                importer.spritePixelsPerUnit = 100f;            // matches the canvas, so the borders keep their drawn thickness
+                importer.spriteBorder = assetPath.Contains("/Own/panel") ? new Vector4(28, 28, 28, 28) : new Vector4(24, 28, 24, 20);
+            }
             importer.SetTextureSettings(settings);
         }
     }

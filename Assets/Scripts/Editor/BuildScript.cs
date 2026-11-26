@@ -19,7 +19,6 @@ namespace GiaoQua.EditorTools
         {
             "Assets/Scenes/Hello.unity",
             "Assets/Scenes/MainMenu.unity",
-            "Assets/Scenes/LevelSelect.unity",
             "Assets/Scenes/Level1.unity",
             "Assets/Scenes/Level2.unity",
             "Assets/Scenes/Level3.unity",

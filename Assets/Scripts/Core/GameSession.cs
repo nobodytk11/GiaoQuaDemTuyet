@@ -11,6 +11,23 @@ namespace GiaoQua
         public static bool DiedThisRun;
         public static float StartTime;
 
+        /// <summary>True while the machine plays by itself. Progress made then is not saved (see SaveService.BeginDemo).</summary>
+        public static bool Autoplay { get; private set; }
+
+        public static void StartAutoplay()
+        {
+            if (Autoplay) return;
+            SaveService.BeginDemo();
+            Autoplay = true;
+        }
+
+        public static void EndAutoplay()
+        {
+            if (!Autoplay) return;
+            Autoplay = false;
+            SaveService.EndDemo();
+        }
+
         public static void BeginLevel(int index)
         {
             LevelIndex = index;

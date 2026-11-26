@@ -34,6 +34,12 @@ namespace GiaoQua.EditorTools
         [MenuItem("Tools/Giao Qua/Dựng cả 3 màn từ bản đồ chữ")]
         public static void BuildAll()
         {
+            Build();
+            if (Application.isBatchMode) EditorApplication.Exit(0);
+        }
+
+        public static void Build()
+        {
             for (int i = 0; i < LevelCatalog.Count; i++)
             {
                 string name = LevelCatalog.Levels[i].Scene;
@@ -41,7 +47,6 @@ namespace GiaoQua.EditorTools
                 else Debug.Log("[GiaoQua] No map for " + name + ", skipped.");
             }
             BuildScript.SyncBuildSettings();
-            if (Application.isBatchMode) EditorApplication.Exit(0);
         }
 
         [MenuItem("Tools/Giao Qua/Kiểm tra bản đồ màn (Validate)")]
@@ -68,8 +73,7 @@ namespace GiaoQua.EditorTools
                 Debug.LogWarning($"[{sceneName}] {issue}");
             }
 
-            sprites.Clear();
-            unlit = EnsureAssets();
+            Prepare();
             Directory.CreateDirectory(ScenesFolder);
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
@@ -90,8 +94,15 @@ namespace GiaoQua.EditorTools
             Debug.Log($"[GiaoQua] Built {sceneName}: {map.Width}x{map.Height} tiles.");
         }
 
+        /// <summary>Loads the shared material before any scene part is built.</summary>
+        internal static void Prepare()
+        {
+            sprites.Clear();
+            unlit = EnsureAssets();
+        }
+
         // ---------------------------------------------------------------- assets
-        static Material EnsureAssets()
+        internal static Material EnsureAssets()
         {
             Directory.CreateDirectory("Assets/Resources");
             Directory.CreateDirectory("Assets/Materials");
@@ -122,7 +133,7 @@ namespace GiaoQua.EditorTools
             return mat;
         }
 
-        static Sprite Spr(string path)
+        internal static Sprite Spr(string path)
         {
             if (sprites.TryGetValue(path, out var s)) return s;
             s = AssetDatabase.LoadAssetAtPath<Sprite>(path);
@@ -175,7 +186,7 @@ namespace GiaoQua.EditorTools
             go.transform.position = new Vector3(map.Center(sc, sr).x, map.Center(sc, sr).y + 1.6f, -10f);
         }
 
-        static void BuildBackground()
+        internal static void BuildBackground()
         {
             var root = new GameObject("Background");
             AddParallax(root.transform, "Stars", Own + "bg_stars.png", 0.04f, 0f, -30, 1.4f);
@@ -183,7 +194,7 @@ namespace GiaoQua.EditorTools
             AddParallax(root.transform, "HillsNear", Own + "hills_near.png", 0.38f, -3.1f, -10, 1.4f);
         }
 
-        static void AddParallax(Transform parent, string name, string spritePath, float factor, float offsetY, int order, float scale)
+        internal static void AddParallax(Transform parent, string name, string spritePath, float factor, float offsetY, int order, float scale)
         {
             var layer = new GameObject(name);
             layer.transform.SetParent(parent, false);
@@ -252,7 +263,7 @@ namespace GiaoQua.EditorTools
             go.AddComponent<KillZone>();
         }
 
-        static void BuildSnow(Camera cam)
+        internal static void BuildSnow(Camera cam)
         {
             var go = new GameObject("Snow");
             go.transform.SetParent(cam.transform, false);
@@ -316,6 +327,7 @@ namespace GiaoQua.EditorTools
             }
             BuildSeesawAndChimney();
 
+            new GameObject("HUD").AddComponent<GiaoQua.UI.GameHud>();
             var lc = new GameObject("LevelController").AddComponent<LevelController>();
             lc.levelIndex = levelIndex;
             lc.spawnPoint = spawn;

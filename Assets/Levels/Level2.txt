@@ -1,0 +1,18 @@
+; Màn 2 - Băng trơn. Một ký tự = một ô (1 mét). Mỗi hàng của bản đồ nằm giữa hai dấu |. Hàng trên cùng là phía trên của màn.
+; # đất  I băng  H mái nhà  W tường  S xuất phát  o xu  h tim  b giày  s khiên  ? hộp xu  ! hộp tim  ^ gai
+; c điểm lưu  P đệm nảy  e sên  n ốc  f ruồi bay  k kẻ đuổi  m/v bệ di chuyển  t bệ tan  i cột băng
+; L ván bập bênh  C ống khói  T cây thông.  Dòng bắt đầu bằng @ là cài đặt:
+;   @seesaw <lực nhảy tối thiểu> <góc bay>   @wind x0 y0 x1 y1 vx vy [chu kỳ] [giây thổi]   @gravity x0 y0 x1 y1 hệ số
+@seesaw 13 60
+|                                                                                                                                                      |
+|                                                  i   i   i                                                                                           |
+|                                                                                                                                                      |
+|                                                                                                                                                      |
+|                                                                                    f     ooo   b                                  o                  |
+|                                                                       f                       ###                   f              o                 |
+|                                     ??   o                 !                     o o                                                       C         |
+|                                ooo      o o                              oo                              ooo   oooo                       HHH        |
+|      ooo       ooooo                            ooo ooo                                                                                   WWW        |
+|   S      T             c    e                c                    n      ^^ c  m          P        e  c         ^^     s     c  L   P     WWW        |
+|#############IIIIIIIIIIIIIIIIIIIIIIIIIIII   IIIIIIIIIIIIIIIIIII################         ##################   IIIIIIIIIIIIII###########################|
+|#############IIIIIIIIIIIIIIIIIIIIIIIIIIII   IIIIIIIIIIIIIIIIIII################         ##################   IIIIIIIIIIIIII###########################|
