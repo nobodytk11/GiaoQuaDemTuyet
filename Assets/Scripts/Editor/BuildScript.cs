@@ -60,7 +60,7 @@ namespace GiaoQua.EditorTools
         {
             EditorUserBuildSettings.buildAppBundle = false;
             PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.Android, ScriptingImplementation.IL2CPP);
-            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64 | AndroidArchitecture.X86_64;   // phones, and the emulator on an Intel Mac
+            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;       // x86-64 is deprecated in Unity 6.3; phones use ARM64
             PlayerSettings.defaultInterfaceOrientation = UIOrientation.AutoRotation;
             PlayerSettings.allowedAutorotateToPortrait = false;
             PlayerSettings.allowedAutorotateToPortraitUpsideDown = false;

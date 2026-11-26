@@ -9,7 +9,7 @@ namespace GiaoQua.UI
     /// <summary>On-screen buttons for phones and tablets. They write into VirtualInput, which the hero reads together with the keyboard.</summary>
     public class TouchControls : MonoBehaviour
     {
-        public static bool ShouldShow => Application.isMobilePlatform || Touchscreen.current != null;
+        public static bool ShouldShow => Application.isMobilePlatform;      // desktop browsers also report a touch screen, so only phones and tablets count
         GameObject root;
 
         public void Build(Transform canvas)
