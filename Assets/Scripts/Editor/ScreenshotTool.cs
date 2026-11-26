@@ -26,6 +26,15 @@ namespace GiaoQua.EditorTools
             EditorSceneManager.OpenScene($"Assets/Scenes/{sceneName}.unity", OpenSceneMode.Single);
             var cam = Camera.main;
             if (cam == null) throw new InvalidOperationException("no main camera in " + sceneName);
+            string heroAt = Environment.GetEnvironmentVariable("SHOT_HERO");   // "x,y": where to put the hero (feet)
+            if (!string.IsNullOrEmpty(heroAt))
+            {
+                var hp = heroAt.Split(',');
+                var hero = UnityEngine.Object.FindFirstObjectByType<PlayerController>();
+                if (hero != null)
+                    hero.transform.position = new Vector3(float.Parse(hp[0], System.Globalization.CultureInfo.InvariantCulture),
+                                                          float.Parse(hp[1], System.Globalization.CultureInfo.InvariantCulture), 0f);
+            }
             var follow = cam.GetComponent<CameraFollow2D>();
             if (follow != null) follow.enabled = false;
 

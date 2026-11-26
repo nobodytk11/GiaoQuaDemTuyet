@@ -45,6 +45,30 @@ namespace GiaoQua.EditorTools
             Build(BuildTarget.StandaloneWindows64, "Builds/PC/GiaoQuaDemTuyet.exe");
         }
 
+        [MenuItem("Tools/Giao Qua/Build WebGL")]
+        public static void BuildWebGL()
+        {
+            // uncompressed files, so any plain web server can host the folder
+            PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Disabled;
+            PlayerSettings.WebGL.decompressionFallback = false;
+            PlayerSettings.WebGL.template = "APPLICATION:Default";
+            Build(BuildTarget.WebGL, "Builds/Web");
+        }
+
+        [MenuItem("Tools/Giao Qua/Build Android (APK)")]
+        public static void BuildAndroid()
+        {
+            EditorUserBuildSettings.buildAppBundle = false;
+            PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.Android, ScriptingImplementation.IL2CPP);
+            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64 | AndroidArchitecture.X86_64;   // phones, and the emulator on an Intel Mac
+            PlayerSettings.defaultInterfaceOrientation = UIOrientation.AutoRotation;
+            PlayerSettings.allowedAutorotateToPortrait = false;
+            PlayerSettings.allowedAutorotateToPortraitUpsideDown = false;
+            PlayerSettings.allowedAutorotateToLandscapeLeft = true;
+            PlayerSettings.allowedAutorotateToLandscapeRight = true;
+            Build(BuildTarget.Android, "Builds/Android/GiaoQuaDemTuyet.apk");
+        }
+
         static void Build(BuildTarget target, string output)
         {
             SyncBuildSettings();
