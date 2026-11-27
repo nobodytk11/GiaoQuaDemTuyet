@@ -29,7 +29,7 @@ namespace GiaoQua.Gameplay
         readonly Dictionary<MovingPlatform, float> homeX = new Dictionary<MovingPlatform, float>();
         readonly HashSet<MovingPlatform> crossed = new HashSet<MovingPlatform>();
         MovingPlatform current;
-        bool boarded;
+        bool boarded, crossGateDone;
         Stage stage = Stage.Run;
         float lostFor, wonFor, idleSince;
         int ground;
@@ -66,7 +66,7 @@ namespace GiaoQua.Gameplay
             {
                 move = 0f; jumpHeld = false;
                 lostFor += Time.unscaledDeltaTime;
-                if (lostFor > 1.4f) { lostFor = 0f; stage = Stage.Run; level.Retry(); }
+                if (lostFor > 1.4f) { lostFor = 0f; stage = Stage.Run; crossGateDone = false; level.Retry(); }
                 return;
             }
             lostFor = 0f;
@@ -110,6 +110,9 @@ namespace GiaoQua.Gameplay
             }
             return true;
         }
+
+        /// <summary>Where to wait before the spring: on the ground just right of the seesaw pad, near the spring.</summary>
+        float StandX() => Mathf.Max(seesaw.transform.position.x + 1.2f, spring.transform.position.x - 2.0f);
 
         bool HasGusts() { foreach (var g in gusts) if (g.period > 0f) return true; return false; }
 
@@ -176,20 +179,43 @@ namespace GiaoQua.Gameplay
                 }
 
                 case Stage.ToSpring:
+                {
                     if (seesaw.gift.Delivered) { stage = Stage.Delivered; break; }
                     if (spring == null) { stage = Stage.SeesawJump; break; }
-                    if (grounded && p.x >= spring.transform.position.x - 3.2f && p.x < spring.transform.position.x - 1.0f && p.x > seesaw.transform.position.x + 1.2f)
+                    float standX = StandX();
+                    if (p.x < seesaw.transform.position.x + 0.9f)                               // first get past the seesaw
                     {
-                        move = 0f; stage = HasGusts() ? Stage.WaitCalm : Stage.SpringJump; break;
+                        if (HasGusts() && !crossGateDone)
+                        {
+                            // with gusts around, wait outside the wind for a calm moment, then cross in one go
+                            float gateX = seesaw.transform.position.x - 6.5f;
+                            if (p.x < gateX - 0.5f) { RunStep(); break; }
+                            move = Mathf.Clamp((gateX - p.x) * 2.5f, -1f, 1f);
+                            jumpHeld = false;
+                            if (Calm()) crossGateDone = true;
+                            break;
+                        }
+                        RunStep();
+                        break;
                     }
-                    if (p.x > spring.transform.position.x - 1.0f && grounded) { move = -1f; break; }      // went too far: step back
-                    RunStep();
+                    // walk to the waiting spot with a small correction loop, so wind or momentum cannot make it overshoot
+                    move = Mathf.Clamp((standX - p.x) * 2.5f, -1f, 1f);
+                    jumpHeld = false;
+                    if (grounded && Mathf.Abs(standX - p.x) < 0.3f && Mathf.Abs(hero.Velocity.x) < 1.2f)
+                    {
+                        move = 0f;
+                        stage = HasGusts() ? Stage.WaitCalm : Stage.SpringJump;
+                    }
                     break;
+                }
 
                 case Stage.WaitCalm:
-                    move = 0f;
-                    if (Calm()) stage = Stage.SpringJump;
+                {
+                    float standX = StandX();
+                    move = Mathf.Clamp((standX - p.x) * 2.5f, -1f, 1f);       // hold the spot even while the wind pushes
+                    if (Calm() && Mathf.Abs(standX - p.x) < 0.6f) stage = Stage.SpringJump;
                     break;
+                }
 
                 case Stage.SpringJump:
                 {
@@ -226,6 +252,7 @@ namespace GiaoQua.Gameplay
                     if (seesaw != null && seesaw.gift.AtHome && !seesaw.gift.InFlight && Time.time - idleSince > 4f)
                     {
                         idleSince = Time.time;
+                        crossGateDone = false;
                         stage = seesaw.minImpact <= 9f || spring == null ? Stage.SeesawJump : Stage.ToSpring;
                     }
                     else if (seesaw != null && seesaw.gift.InFlight) idleSince = Time.time;

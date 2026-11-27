@@ -31,7 +31,8 @@ namespace GiaoQua.UI
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1280f, 720f);
             scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
-            scaler.matchWidthOrHeight = 0.5f;
+            scaler.matchWidthOrHeight = 1f;
+            go.AddComponent<CanvasAspectMatch>();
             go.AddComponent<GraphicRaycaster>();
             EnsureEventSystem();
             return canvas;

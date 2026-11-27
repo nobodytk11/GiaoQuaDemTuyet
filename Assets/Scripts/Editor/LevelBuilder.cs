@@ -24,7 +24,7 @@ namespace GiaoQua.EditorTools
         const string LevelsFolder = "Assets/Levels/";
         const string ScenesFolder = "Assets/Scenes/";
 
-        static Material unlit;
+        static Material unlit, sparkle;
         static PhysicsMaterial2D heroPhysics;
         static LevelMap map;
         static Transform terrain, decor, items, enemies;
@@ -121,6 +121,15 @@ namespace GiaoQua.EditorTools
             {
                 heroPhysics = new PhysicsMaterial2D("HeroPhysics") { friction = 0f, bounciness = 0f };
                 AssetDatabase.CreateAsset(heroPhysics, physPath);
+            }
+            const string sparklePath = "Assets/Materials/Sparkle.mat";
+            sparkle = AssetDatabase.LoadAssetAtPath<Material>(sparklePath);
+            if (sparkle == null)
+            {
+                var shader = Shader.Find("GiaoQua/SparkleSprite");
+                if (shader == null) throw new System.InvalidOperationException("GiaoQua/SparkleSprite shader not found");
+                sparkle = new Material(shader) { name = "Sparkle" };
+                AssetDatabase.CreateAsset(sparkle, sparklePath);
             }
             const string snowPath = "Assets/Materials/Snow.mat";
             if (AssetDatabase.LoadAssetAtPath<Material>(snowPath) == null)
@@ -241,7 +250,8 @@ namespace GiaoQua.EditorTools
                         break;
                 }
                 var go = Make("tile", terrain, map.Center(c, r));
-                AddSprite(go, s, 0);
+                var tileRenderer = AddSprite(go, s, 0);
+                if (ch == LevelMap.Ice) tileRenderer.sharedMaterial = sparkle;
             }
         }
 
@@ -360,7 +370,7 @@ namespace GiaoQua.EditorTools
             var sprite = Spr(spritePath);
             // all pickups are drawn about 0.8 tiles wide
             float scale = 0.8f / Mathf.Max(sprite.bounds.size.x, sprite.bounds.size.y);
-            AddSprite(go, sprite, 3, Mathf.Min(1f, scale));
+            AddSprite(go, sprite, 3, Mathf.Min(1f, scale)).sharedMaterial = sparkle;
             var col = go.AddComponent<CircleCollider2D>();
             col.radius = radius / go.transform.localScale.x;
             col.isTrigger = true;
@@ -519,7 +529,7 @@ namespace GiaoQua.EditorTools
             // the gift rests on the left end
             var giftHome = new Vector2(fulcrum.x - 0.95f, gt + 0.5f + 0.3f);
             var gift = Make("Gift", null, giftHome, "Gift");
-            AddSprite(gift, Spr(Own + "gift.png"), 6, 0.75f);
+            AddSprite(gift, Spr(Own + "gift.png"), 6, 0.75f).sharedMaterial = sparkle;
             var grb = gift.AddComponent<Rigidbody2D>();
             grb.gravityScale = 2f;
             grb.interpolation = RigidbodyInterpolation2D.Interpolate;
