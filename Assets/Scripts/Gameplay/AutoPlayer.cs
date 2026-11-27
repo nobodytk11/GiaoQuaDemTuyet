@@ -7,15 +7,17 @@ namespace GiaoQua.Gameplay
     /// Plays the level by itself ("Autoplay"). It reads the same objects a player sees: ground, pits, enemies, moving platforms,
     /// the seesaw, springs and wind. It runs right, jumps over trouble, rides platforms, and delivers the gift;
     /// when it loses it retries from the checkpoint.
+    /// It thinks in FixedUpdate, before the hero moves, so a slow phone that draws few frames still sees every pit in time.
     /// </summary>
+    [DefaultExecutionOrder(-50)]
     public class AutoPlayer : MonoBehaviour, IPlayerInput
     {
         enum Stage { Run, WaitPlatform, Ride, SeesawJump, ToSpring, WaitCalm, SpringJump, Bounce, Delivered }
 
         float move;
-        bool jumpPressed, jumpHeld;
+        bool jumpHeld;
         public float Move => move;
-        public bool JumpDown { get { bool v = jumpPressed; jumpPressed = false; return v; } }
+        public bool JumpDown => false;     // jumps go straight to the hero's jump buffer, see Press()
         public bool JumpHeld => jumpHeld;
         public bool ThrowDown => false;
         public bool DuckHeld => false;
@@ -57,15 +59,15 @@ namespace GiaoQua.Gameplay
             }
         }
 
-        void Press() { jumpPressed = true; jumpHeld = true; }
+        void Press() { hero.QueueJump(); jumpHeld = true; }
 
-        void Update()
+        void FixedUpdate()
         {
             if (hero == null || level == null) return;
             if (level.State == LevelState.Lost)
             {
                 move = 0f; jumpHeld = false;
-                lostFor += Time.unscaledDeltaTime;
+                lostFor += Time.fixedDeltaTime;
                 if (lostFor > 1.4f) { lostFor = 0f; stage = Stage.Run; crossGateDone = false; level.Retry(); }
                 return;
             }
@@ -73,7 +75,7 @@ namespace GiaoQua.Gameplay
             if (level.State == LevelState.Won)
             {
                 move = 0f; jumpHeld = false;
-                wonFor += Time.unscaledDeltaTime;
+                wonFor += Time.fixedDeltaTime;
                 if (wonFor > 3f) { wonFor = -999f; level.NextLevel(); }
                 return;
             }

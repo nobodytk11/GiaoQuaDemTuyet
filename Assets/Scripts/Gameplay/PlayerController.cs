@@ -89,6 +89,9 @@ namespace GiaoQua.Gameplay
 
         void OnDestroy() { if (Current == this) Current = null; }
 
+        /// <summary>Asks for a jump from inside the physics step (used by the autoplay bot).</summary>
+        public void QueueJump() { if (Controllable) bufferTimer = jumpBuffer; }
+
         void Update()
         {
             if (Input == null) return;

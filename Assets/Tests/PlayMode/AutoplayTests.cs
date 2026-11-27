@@ -41,6 +41,20 @@ namespace GiaoQua.Tests
         [UnityTest, Timeout(420000)] public IEnumerator Autoplay_plays_level_two_to_the_end() { yield return PlayWholeLevel("Level2", 330f); }
         [UnityTest, Timeout(480000)] public IEnumerator Autoplay_plays_level_three_to_the_end() { yield return PlayWholeLevel("Level3", 400f); }
 
+        // A slow phone or emulator draws few frames; the bot must still see each pit in time.
+        [UnityTest, Timeout(300000)]
+        public IEnumerator Autoplay_finishes_level_one_at_eight_frames_per_second() { yield return PlayAtFps("Level1", 8f); }
+
+        [UnityTest, Timeout(300000)]
+        public IEnumerator Autoplay_finishes_level_one_at_four_frames_per_second() { yield return PlayAtFps("Level1", 4f); }
+
+        IEnumerator PlayAtFps(string scene, float fps)
+        {
+            Time.captureDeltaTime = 1f / fps;
+            try { yield return PlayWholeLevel(scene, 150f); }
+            finally { Time.captureDeltaTime = 0f; }
+        }
+
         [UnityTest]
         public IEnumerator A_demo_run_never_changes_the_real_save()
         {
