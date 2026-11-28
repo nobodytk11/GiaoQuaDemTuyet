@@ -48,9 +48,9 @@ namespace GiaoQua.EditorTools
         [MenuItem("Tools/Giao Qua/Build WebGL")]
         public static void BuildWebGL()
         {
-            // uncompressed files, so any plain web server can host the folder
-            PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Disabled;
-            PlayerSettings.WebGL.decompressionFallback = false;
+            // gzip with the loader unpacking it itself, so plain static hosts (GitHub Pages) still work
+            PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Gzip;
+            PlayerSettings.WebGL.decompressionFallback = true;
             PlayerSettings.WebGL.template = "APPLICATION:Default";
             Build(BuildTarget.WebGL, "Builds/Web");
         }
